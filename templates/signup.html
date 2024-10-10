@@ -3,7 +3,7 @@
   <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>BASE</title>
+      <title>Sign up</title>
       <link rel="stylesheet" href="../static/css/bootstrap.min.css">
       <link rel="stylesheet" href="../static/css/index.css">
       <link rel="stylesheet" href="../static/css/markdown.css">
@@ -14,7 +14,7 @@
           <a href="./index.html" class="navbar-brand ms-5"><h1 style="color: lightseagreen;">AskMe</h1></a>
           <form class="d-flex col-6">
             <input class="form-control me-2" type="search" placeholder="Your question" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">ASK!</button>
+            <a href="ask.html" style="all: unset;"><button class="btn btn-outline-success" type="submit">ASK!</button></a>
           </form>
           <div class="d-flex gap-1">
             <img src="../static/img/profile-pic.png" alt="IMG" class="img-thumbnail object-fit-scale">
@@ -31,9 +31,46 @@
     </nav>
     <main class="container align-items-center p-3 content">
         <header class="d-flex p-4 gap-4 align-items-center">
+            <h2>Registration</h2>
         </header>
         <cards class="container row mb-3 p-3">
             <div class="col-9 p-3 gap-3">
+                <section>
+                    <div class="form-group row mb-3">
+                        <label for="exampleFormControlInput1" class="col-2">Login</label>
+                        <input class="col" type="text" class="form-control col" id="exampleFormControlInput1" placeholder="Your login" style="border: 1px solid black;">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="exampleFormControlInput1" class="col-2">Email</label>
+                        <input class="col" type="email" class="form-control col" id="exampleFormControlInput1" placeholder="Your email" style="border: 1px solid black;">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="exampleFormControlInput1" class="col-2">NickName</label>
+                        <input class="col" type="text" class="form-control col" id="exampleFormControlInput1" placeholder="Your NickName" style="border: 1px solid black;">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="exampleFormControlInput1" class="col-2">Password</label>
+                        <input class="col" type="password" class="form-control col" id="exampleFormControlInput1" placeholder="Your password" style="border: 1px solid black;">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="exampleFormControlInput1" class="col-2">Repeat password</label>
+                        <input class="col" type="password" class="form-control col" id="exampleFormControlInput1" placeholder="Repeat your password" style="border: 1px solid black;">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="row">
+                        <label for="formFile" class="form-label col-2">Upload avatar</label>
+                        <input class="form-control col" type="file" id="formFile">
+                        <div class="col-5"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-2"></div>
+                        <a href="#" class="col" style="all: unset;"><button type="button" class="btn btn-primary mt-3">Sign up!</button></a>
+                    </div>
+                </section>
             </div>
             <div class="col p-4 ">
                 <section class="mb-3">
