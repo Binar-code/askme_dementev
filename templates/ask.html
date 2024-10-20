@@ -37,25 +37,23 @@
         <section>
             <h3 style="color: red; display: none;" class="p-4">Error while adding question</h3>
         </section>
-        <cards class="container row mb-3 p-3">
+        <section class="container row mb-3 p-3">
             <div class="col-7 p-3 gap-3">
                 <form>
-                    <div class="form-group row">
-                        <label for="exampleFormControlInput1" class="col-1">Title</label>
-                        <input class="col" type="text" class="form-control col" id="exampleFormControlInput1" placeholder="Queston title" style="border: 1px solid black;">
+                    <div class="form-group mt-3">
+                        <label for="title-input" class="mb-1">Title</label>
+                        <input type="text" class="form-control" id="title-input" placeholder="Queston title" style="border: 1px solid black;">
                     </div>
-                    <div class="form-group row mt-3">
-                        <label class="col-1" for="exampleFormControlTextarea1">Text</label>
-                        <textarea class="form-control col" id="exampleFormControlTextarea1" rows="10" placeholder="Your question" style="border: 1px solid black;"></textarea>
+                    <div class="form-group mt-3">
+                        <label class="mb-1" for="text-area">Text</label>
+                        <textarea class="form-control" id="text-area" rows="10" placeholder="Your question" style="border: 1px solid black;"></textarea>
                     </div>
-                    <div class="form-group row mt-3">
-                        <label class="col-1" for="exampleFormControlTextarea1">Tags</label>
-                        <input class="col" type="text" class="form-control col" id="exampleFormControlInput1" placeholder="Tags" style="border: 1px solid black;">
+                    <div class="form-group mt-3">
+                        <label class="mb-1" for="tags-input">Tags</label>
+                        <input type="text" class="form-control col" id="tags-input" placeholder="Tags" style="border: 1px solid black;">
                     </div>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <button type="button" class="btn btn-outline-success mt-3 col">ASK!</button>
-                        <div class="col-9"></div>
+                    <div class="">
+                        <button type="button" class="btn btn-outline-success mt-3">ASK!</button>
                     </div>
                     </form>
             </div>
@@ -104,7 +102,7 @@
                         </ul>
                 </section>
             </div>
-        </cards>
+        </section>
     </main>
     <footer>
         <nav style="background-color: lightblue;" class="navbar p-3 row">
