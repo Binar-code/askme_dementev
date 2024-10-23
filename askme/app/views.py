@@ -3,4 +3,4 @@ from django.shortcuts import render
 
 
 def index(req):
-    return HttpResponse('Aboba')
+    return render(req, 'index.html')
