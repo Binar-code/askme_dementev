@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
     {% extends "base.html" %}
+    {% load static %}
     {% block content %}
     <div class="col-7 p-3 gap-3">
             <section>
@@ -21,7 +22,7 @@
                 </div>
                 <div class="row">
                     <label for="formFile" class="form-label col-3">Upload avatar</label>
-                    <img src="../static/img/placeholder-pic.png" alt="IMG" class="img-thumbnail mb-3" style="height: 80px; width: 100px;">
+                    <img src="{% static 'img/placeholder-pic.png' %}" alt="IMG" class="img-thumbnail mb-3" style="height: 80px; width: 100px;">
                 </div>
                 <div class="mb-3 row">
                     <div class="col-3"></div>
