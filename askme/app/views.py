@@ -6,7 +6,7 @@ from askme.question import Card, Question, Answer
 members = {'Aboba': 100, 'ChargeZealot': 90, 'ZerG': 50}
 tags = [(f'tag_{i}', 'tag') for i in range(1, 11)]
 username = 'Aboba'
-userpic = '../static/img/profile-pic.png'
+userpic = 'img/profile-pic.png'
 
 
 def paginate(obj_list, req, per_page=4):
@@ -23,7 +23,7 @@ def paginate(obj_list, req, per_page=4):
 
 def index(req):
     cards = [
-        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+        Card('img/placeholder-pic.png', f'SomeTitle {i + 1}',
              'Lorem Ipsum', ['tag_1', 'tag_2'], 15, 1)
         for i in range(11)
     ]
@@ -51,19 +51,21 @@ def settings(req):
 
 def tag(req):
     cards = [
-        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+        Card('img/placeholder-pic.png', f'SomeTitle {i + 1}',
              'Lorem Ipsum', ['some_tag', 'tag_2'], 15, 1)
         for i in range(7)
     ]
 
+    paginated_cards = paginate(cards, req, 4)
+
     return TemplateResponse(req, 'tag.html', context={'members': members, 'tags': tags,
-                                                      'userpic': userpic,
-                                                      'username': username})
+                                                      'userpic': userpic, 'username': username,
+                                                      'cards': paginated_cards})
 
 
 def hot(req):
     cards = [
-        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+        Card('img/placeholder-pic.png', f'SomeTitle {i + 1}',
              'Lorem Ipsum', ['tag_1', 'tag_2'], 999, 999)
         for i in range(10)
     ]
@@ -75,7 +77,7 @@ def hot(req):
 
 
 def question(req):
-    main_question = Question('../static/img/placeholder-pic.png', f'SomeTitle',
+    main_question = Question('img/placeholder-pic.png', f'SomeTitle',
              'Lorem Ipsum',  ['tag_1', 'tag_2'], 10)
     answers = [
         Answer('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',

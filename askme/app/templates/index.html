@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 {% extends "base.html" %}
+{% load static %}
     <div>
         {% block header %}
         <header class="d-flex p-4 gap-4 align-items-center">
@@ -14,12 +15,12 @@
                 <div class="row">
                     <div class="col-2">
                         <div style="height: 100px" class="border mt-1 ms-1 mb-1 me-1">
-                            <img src="{{ card.img }}" alt="IMG" class="img-thumbnail mb-5">
+                            <img src="{% static card.img %}" alt="IMG" class="img-thumbnail mb-5">
                         </div>
                         <div class="ms-3 me-2 mt-3 mb-3 row">
-                            <a href="#" style="all: unset;"><img src="../static/img/like-pic.png" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
+                            <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
                             <p class="col ms-2 me-2" style="all: unset;">{{ card.likes }}</p>
-                            <a href="#" style="all: unset;"><img src="../static/img/dislike-pik.png" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
+                            <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
                         </div>
                     </div>
                     <div class="col-10 p-3">
