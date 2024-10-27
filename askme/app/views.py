@@ -1,48 +1,38 @@
-from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.response import TemplateResponse
-from dataclasses import dataclass
-
-
-@dataclass
-class Card:
-    img: str
-    title: str
-    text: str
-    answers: int
-    tags: list
-    likes: int
-
-    def __init__(self, img, title, text, answers, tags, likes):
-        self.img = img
-        self.title = title
-        self.text = text
-        self.answers = answers
-        self.tags = tags
-        self.likes = likes
+from askme.question import Card, Question, Answer
 
 
 members = {'Aboba': 100, 'ChargeZealot': 90, 'ZerG': 50}
 tags = [(f'tag_{i}', 'tag') for i in range(1, 11)]
+username = 'Aboba'
+userpic = '../static/img/profile-pic.png'
 
 
-def paginate(obj, req, per_page = 10):
-    pass
+def paginate(obj_list, req, per_page=4):
+    paginator = Paginator(obj_list, per_page)
+    page_number = req.GET.get('page', 1)
+
+    try:
+        return paginator.get_page(page_number)
+    except PageNotAnInteger:
+        return paginator.get_page(1)
+    except EmptyPage:
+        return paginator.get_page(paginator.num_pages)
 
 
 def index(req):
     cards = [
-        Card('../static/img/placeholder-pic.png', 'SomeName 1',
-             'Lorem Ipsum', 1, ['tag_1', 'tag_2'], 15),
-        Card('../static/img/placeholder-pic.png', 'SomeName 2',
-             'Lorem Ipsum', 0, ['tag_1', 'tag_2'], 10),
-        Card('../static/img/placeholder-pic.png', 'SomeName 3',
-             'Lorem Ipsum', 1, ['tag_1', 'tag_2'], -6),
-        Card('../static/img/placeholder-pic.png', 'SomeName 4',
-             'Lorem Ipsum', 0, ['tag_1', 'tag_2'], 3),
+        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+             'Lorem Ipsum', ['tag_1', 'tag_2'], 15, 1)
+        for i in range(11)
     ]
-    return TemplateResponse(req, 'index.html', context={'username': 'Aboba',
-                                                        'userpic': '../static/img/profile-pic.png',
-                                                        'members': members, 'tags': tags, 'cards': cards})
+
+    paginated_cards = paginate(cards, req, 4)
+
+    return TemplateResponse(req, 'index.html', context={'username': username,
+                                                        'userpic': userpic, 'members': members, 'tags': tags,
+                                                        'cards': paginated_cards})
 
 
 def login(req):
@@ -54,20 +44,55 @@ def signup(req):
 
 
 def settings(req):
-    return TemplateResponse(req, 'settings.html', context={'members': members, 'tags': tags})
+    return TemplateResponse(req, 'settings.html', context={'members': members, 'tags': tags,
+                                                           'userpic': userpic,
+                                                           'username': username})
 
 
 def tag(req):
-    return TemplateResponse(req, 'tag.html', context={'members': members, 'tags': tags})
+    cards = [
+        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+             'Lorem Ipsum', ['some_tag', 'tag_2'], 15, 1)
+        for i in range(7)
+    ]
+
+    return TemplateResponse(req, 'tag.html', context={'members': members, 'tags': tags,
+                                                      'userpic': userpic,
+                                                      'username': username})
 
 
 def hot(req):
-    return HttpResponse("In progress")
+    cards = [
+        Card('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+             'Lorem Ipsum', ['tag_1', 'tag_2'], 999, 999)
+        for i in range(10)
+    ]
+    paginated_cards = paginate(cards, req, 4)
+    return TemplateResponse(req, 'hot.html', context={'members': members, 'tags': tags,
+                                                      'userpic': userpic,
+                                                      'username': username,
+                                                      'cards': paginated_cards})
 
 
 def question(req):
-    return TemplateResponse(req, 'question.html', context={'members': members, 'tags': tags})
+    main_question = Question('../static/img/placeholder-pic.png', f'SomeTitle',
+             'Lorem Ipsum',  ['tag_1', 'tag_2'], 10)
+    answers = [
+        Answer('../static/img/placeholder-pic.png', f'SomeTitle {i + 1}',
+             'Lorem Ipsum',  ['tag_1', 'tag_2'], 1, False)
+        for i in range(10)
+    ]
+
+    answers[0].correct = True
+
+    paginated_answers = paginate(answers, req, 3)
+
+    return TemplateResponse(req, 'question.html', context={'members': members, 'tags': tags,
+                                                           'userpic': userpic, 'username': username,
+                                                           'answers': paginated_answers, 'question': main_question})
 
 
 def ask(req):
-    return TemplateResponse(req, 'ask.html', context={'members': members, 'tags': tags})
+    return TemplateResponse(req, 'ask.html', context={'members': members, 'tags': tags,
+                                                      'userpic': userpic,
+                                                      'username': username})

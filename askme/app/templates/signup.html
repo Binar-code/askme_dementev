@@ -1,45 +1,61 @@
 <!doctype html>
-{% extends "base.html" %}
-{% block content %}
-<section>
-    <h3 style="color: red; display: none;" class="p-4">Error</h3>
-</section>
-<div class="col-9 p-3 gap-3">
+<html>
+    {% extends "base.html" %}
+    {% block navbar %}
+    <header>
+        <nav class="navbar navbar-light shadow" style="background-color: lightblue;">
+            <div class="container-fluid">
+            <a href="{% url 'home' %}" class="navbar-brand ms-5"><h1 style="color: lightseagreen;">AskMe</h1></a>
+            <form class="d-flex col-6">
+                <input class="form-control me-2" type="search" placeholder="Your question" aria-label="Search">
+                <a href="ask.html" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
+            </form>
+            <div class="col-1">
+            </div>
+        </nav>
+    </header>
+    {% endblock %}
+    {% block content %}
     <section>
-        <div class="form-group row mb-3">
-            <label for="login-input" class="col-3">Login</label>
-            <input type="text" class="form-control col" id="login-input" placeholder="Your login" style="border: 1px solid black;">
-            <div class="col-4"></div>
-        </div>
-        <div class="form-group row mb-3">
-            <label for="email-input" class="col-3">Email</label>
-            <input class="col" type="email" id="email-input" placeholder="Your email" style="border: 1px solid black;">
-            <div class="col-4"></div>
-        </div>
-        <div class="form-group row mb-3">
-            <label for="nickname-input" class="col-3">NickName</label>
-            <input class="col" type="text" id="nickname-input" placeholder="Your NickName" style="border: 1px solid black;">
-            <div class="col-4"></div>
-        </div>
-        <div class="form-group row mb-3">
-            <label for="pass-input" class="col-3">Password</label>
-            <input class="col" type="password" id="pass-input" placeholder="Your password" style="border: 1px solid black;">
-            <div class="col-4"></div>
-        </div>
-        <div class="form-group row mb-3">
-            <label for="rep-pass-input" class="col-3">Repeat password</label>
-            <input type="password" class="form-control col" id="rep-pass-input" placeholder="Repeat your password" style="border: 1px solid black;">
-            <div class="col-4"></div>
-        </div>
-        <div class="row">
-            <label for="formFile" class="form-label col-3">Upload avatar</label>
-            <input class="form-control col" type="file" id="formFile">
-            <div class="col-4"></div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-2"></div>
-            <a href="{% url 'home' %}" class="col" style="all: unset;"><button type="button" class="btn btn-primary mt-3">Sign up!</button></a>
-        </div>
+        <h3 style="color: red; display: none;" class="p-4">Error</h3>
     </section>
-</div>
-{% endblock %}
+    <div class="col-9 p-3 gap-3">
+        <section>
+            <div class="form-group row mb-3">
+                <label for="login-input" class="col-3">Login</label>
+                <input type="text" class="form-control col" id="login-input" placeholder="Your login" style="border: 1px solid black;">
+                <div class="col-4"></div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="email-input" class="col-3">Email</label>
+                <input class="col" type="email" id="email-input" placeholder="Your email" style="border: 1px solid black;">
+                <div class="col-4"></div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="nickname-input" class="col-3">NickName</label>
+                <input class="col" type="text" id="nickname-input" placeholder="Your NickName" style="border: 1px solid black;">
+                <div class="col-4"></div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="pass-input" class="col-3">Password</label>
+                <input class="col" type="password" id="pass-input" placeholder="Your password" style="border: 1px solid black;">
+                <div class="col-4"></div>
+            </div>
+            <div class="form-group row mb-3">
+                <label for="rep-pass-input" class="col-3">Repeat password</label>
+                <input type="password" class="form-control col" id="rep-pass-input" placeholder="Repeat your password" style="border: 1px solid black;">
+                <div class="col-4"></div>
+            </div>
+            <div class="row">
+                <label for="formFile" class="form-label col-3">Upload avatar</label>
+                <input class="form-control col" type="file" id="formFile">
+                <div class="col-4"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-3"></div>
+                <a href="{% url 'home' %}" class="col" style="all: unset;"><button type="button" class="btn btn-primary mt-3">Sign up!</button></a>
+            </div>
+        </section>
+    </div>
+    {% endblock %}
+</html>
