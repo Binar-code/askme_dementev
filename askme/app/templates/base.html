@@ -4,7 +4,6 @@
   <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>BASE</title>
       <link rel="stylesheet" href="../static/css/bootstrap.min.css">
       <link rel="stylesheet" href="../static/css/index.css">
       <link rel="stylesheet" href="../static/css/markdown.css">
@@ -17,7 +16,7 @@
             <a href="{% url 'home' %}" class="navbar-brand ms-5"><h1 style="color: lightseagreen;">AskMe</h1></a>
             <form class="d-flex col-6">
                 <input class="form-control me-2" type="search" placeholder="Your question" aria-label="Search">
-                <a href="ask.html" style="all: unset;"><button class="btn btn-outline-success" type="submit">ASK!</button></a>
+                <a href="ask.html" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
             </form>
             <div class="d-flex gap-1">
                 <img src="{{ userpic }}" alt="IMG" class="img-thumbnail object-fit-scale">
@@ -46,7 +45,7 @@
               <section class="mb-3">
                   <h1>Popular tags</h1>
                   <div>
-                      {% for tag, link in tags.items %}
+                      {% for tag, link in tags %}
                         <a href="{% url link %}"><span class="badge bg-primary">{{ tag }}</span></a>
                       {% endfor %}
                   </div>
