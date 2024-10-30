@@ -91,7 +91,7 @@ def question(req):
 
     return TemplateResponse(req, 'question.html', context={'members': members, 'tags': tags,
                                                            'userpic': userpic, 'username': username,
-                                                           'answers': paginated_answers, 'question': main_question})
+                                                           'cards': paginated_answers, 'question': main_question})
 
 
 def ask(req):
