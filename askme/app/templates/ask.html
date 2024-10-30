@@ -1,10 +1,32 @@
-<!-- TODO: переделать под шаблоны -->
-
 <!doctype html>
 <html lang="ru">
 {% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+<header>
+    <nav class="navbar navbar-light shadow" style="background-color: lightblue;">
+        <div class="container-fluid">
+        <a href="{% url 'home' %}" class="navbar-brand ms-5"><h1 style="color: lightseagreen;">AskMe</h1></a>
+        <form class="d-flex col-6">
+            <input class="form-control me-2" type="search" placeholder="Your question" aria-label="Search">
+            <a href="{% url 'question' %}" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
+        </form>
+        <div class="d-flex gap-1">
+            <img src="{% static userpic %}" alt="IMG" class="img-thumbnail object-fit-scale">
+            <div class="me-5">
+                <div class="text-start">
+                    {{ username }}
+                </div>
+                    <a href="{% url 'settings' %}">Settings</a>
+                    <a href="{% url 'home' %}">log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+{% endblock %}
 {% block header %}
-<header class="d-flex gap-4 ms-5">
+<header class="d-flex gap-4 ms-5 mt-3">
     <h1>New question</h1>
 </header>
 {% endblock %}
