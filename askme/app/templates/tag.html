@@ -26,7 +26,7 @@
             <p class="card-text">{{ card.text }}</p>
             <div class="row">
                 <div class="col-4">
-                    <a href="#">answer ({{ card.answers }})</a>
+                    <a href="{% url 'question' %}">answer ({{ card.answers }})</a>
                 </div>
                 <div class="col-8 d-flex">
                     <p class="me-2">Tags:</p>
