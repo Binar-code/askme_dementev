@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex mt-3 ms-2 row">
                     <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-3" style="height: 25px; cursor: pointer;"></a>
-                    <p class="col ms-3 me-3" style="all: unset;">{{ question.likes }}</p>
+                    <p class="col ms-3 me-3" style="all: unset;">{{ question.likes_count }}</p>
                     <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col me-3" style="height: 25px; cursor: pointer;"></a>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                 </p>
                 <div class="row">
                     <div class="col d-flex">
-                        <p class="">Tags:&nbsp&nbsp</p>
-                        {% for tag in question.tags %}
+                        <p class="">Tags:&nbsp;&nbsp;</p>
+                        {% for tag in question.tags.all %}
                         <div>
-                            <a style="all: unset;">{{ tag }}</a>
+                            <a href="{% url 'tag' tag_name=tag.name %}"><span>{{ tag.name }}</span></a>
                         </div>
                         {% endfor %}
                     </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="ms-4 d-flex mt-4 row mb-3">
                         <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1" style="height: 25px; cursor: pointer;"></a>
-                        <p class="col ms-3 me-3" style="all: unset;">0</p>
+                        <p class="col ms-3 me-3" style="all: unset;">{{ answer.likes_count }}</p>
                         <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col me-1" style="height: 25px; cursor: pointer;"></a>
                     </div>
                 </div>
