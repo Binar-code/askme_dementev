@@ -6,7 +6,10 @@ MAX_TITLE_LEN = 255
 
 class QuestionManager(models.Manager):
     def popular(self):
-        return self.annotate(likes_count=Count('likes')).order_by('-likes_count')
+        return self.annotate(
+            likes_count=Count('likes', distinct=True),
+            answers_count=Count('answers', distinct=True)
+        ).order_by('-likes_count')
 
     def new(self):
         return self.annotate(likes_count=Count('likes')).order_by('-created_at')
@@ -18,16 +21,12 @@ class QuestionManager(models.Manager):
 class ProfileManager(models.Manager):
     def best(self):
         return self.annotate(
-            question_likes=Count('questions__likes', distinct=True),
-            answer_likes=Count('answers__likes', distinct=True)
-        ).annotate(
-            total_likes=F('question_likes') + F('answer_likes')
-        ).order_by('-total_likes')[:5]
+            answer_likes=Count('answers__likes', distinct=True)).order_by('-answer_likes')[:5]
 
 
 class TagsManager(models.Manager):
     def popular(self):
-        return self.annotate(num_questions=Count('questions')).order_by('-num_questions')[:8]
+        return self.annotate(num_questions=Count('questions')).order_by('-num_questions')[:10]
 
 
 class AnswerManager(models.Manager):

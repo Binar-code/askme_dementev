@@ -25,7 +25,8 @@ def index(req):
         'userpic': userpic,
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
-        'cards': paginated_cards})
+        'cards': paginated_cards,
+        'auth': req.user.is_authenticated})
 
 
 def login(req):
@@ -52,7 +53,7 @@ def settings(req):
 
 def tag(req, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
-    questions_with_tag = Question.objects.filter(tags=tag)
+    questions_with_tag = Question.objects.filter(tags=tag).annotate(likes_count=Count('likes'), answers_count=Count('answers'))
     paginated_cards = paginate(questions_with_tag, req, 6)
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     userpic = profile.avatar.url if profile and profile.avatar else None
@@ -63,6 +64,7 @@ def tag(req, tag_name):
         'username': req.user.username if req.user.is_authenticated else None,
         'cards': paginated_cards,
         'tag': tag})
+
 
 
 def hot(req):
@@ -90,8 +92,7 @@ def question(req, question_id):
         'username': req.user.username if req.user.is_authenticated else None,
         'cards': paginated_answers,
         'question': question,
-        'question_id': question_id
-    })
+        'question_id': question_id})
 
 
 def ask(req):

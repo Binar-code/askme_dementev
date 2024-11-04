@@ -17,22 +17,22 @@
             </div>
             <div class="ms-3 me-2 mt-3 mb-3 row">
                 <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
-                <p class="col ms-1 me-1" style="all: unset;">{{ card.likes }}</p>
+                <p class="col ms-1 me-1" style="all: unset;">{{ card.likes_count }}</p>
                 <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1 me-1" style="height: 25px; cursor: pointer;"></a>
             </div>
         </div>
         <div class="col-10 p-3">
-            <h5 class="card-title">{{ card.title }}</h5>
+                <a style="all: unset; cursor: pointer;" href="{% url 'question' card.id %}"><h5 class="card-title">{{ card.title }}</h5></a>
             <p class="card-text">{{ card.text }}</p>
             <div class="row">
                 <div class="col-4">
-                    <a href="{% url 'question' %}">answer ({{ card.answers }})</a>
+                    <a href="{% url 'question' card.id %}">answer ({{ card.answers_count }})</a>
                 </div>
                 <div class="col-8 d-flex">
                     <p class="me-2">Tags:</p>
                     <div>
-                        {% for tag in card.tags %}
-                        <p style="all: unset;">{{ tag }}</p>
+                        {% for tag in card.tags.all %}
+                        <a href="{% url 'tag' tag.name %}"><p style="all: unset;">{{ tag.name }}</p></a>
                         {% endfor %}
                     </div>
                 </div>
