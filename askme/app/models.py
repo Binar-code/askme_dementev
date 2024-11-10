@@ -27,12 +27,12 @@ class ProfileManager(models.Manager):
 
 class TagsManager(models.Manager):
     def popular(self):
-        return self.annotate(num_questions=Count('questions')).order_by('-num_questions')[:10]
+        return self.annotate(num_questions=Count('questions')).order_by('-num_questions')[:8]
 
 
 class AnswerManager(models.Manager):
     def answers(self, question):
-        return self.filter(question=question)
+        return self.filter(question=question).order_by(F('correct').desc(), 'created_at')
 
 
 class Profile(models.Model):
@@ -52,7 +52,11 @@ class Question(models.Model):
     )
     title = models.CharField(max_length=MAX_TITLE_LEN)
     text = models.TextField()
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(
+        blank=True,
+        null=True,
+        default='static/img/placeholder_pic.png'
+    )
     tags = models.ManyToManyField('Tag', related_name='questions')
     created_at = models.DateTimeField(auto_now_add=True)
     objects = QuestionManager()
