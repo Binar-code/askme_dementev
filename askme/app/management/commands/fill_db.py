@@ -60,12 +60,14 @@ class Command(BaseCommand):
     def create_questions(self, ratio, tags):
         profiles = list(Profile.objects.all())
         questions = []
-        for _ in range(ratio * 10):
+        text = fake.paragraph()
+        title = fake.sentence()
+        for i in range(ratio * 10):
             profile = random.choice(profiles)
             question = Question(
                 user=profile,
-                title=fake.sentence(),
-                text=fake.paragraph(),
+                title=title,
+                text=text,
                 image=None
             )
             questions.append(question)
@@ -74,7 +76,7 @@ class Command(BaseCommand):
         questions = list(Question.objects.all())
 
         for question in questions:
-            question.tags.add(*random.sample(tags, min(5, len(tags))))
+            question.tags.add(*random.sample(tags, random.randint(5, 10)))
 
         self.stdout.write(self.style.SUCCESS(f'Создано вопросов: {ratio * 10}'))
         return questions
@@ -82,11 +84,12 @@ class Command(BaseCommand):
     def create_answers(self, ratio, questions):
         profiles = list(Profile.objects.all())
         answers = []
+        text = fake.paragraph()
 
         for question in questions:
             has_correct_answer = False
 
-            for _ in range(ratio):
+            for i in range(ratio):
                 profile = random.choice(profiles)
 
                 if not has_correct_answer and random.random() < 0.1:
@@ -98,7 +101,7 @@ class Command(BaseCommand):
                 answer = Answer(
                     question=question,
                     user=profile,
-                    text=fake.paragraph(),
+                    text=text,
                     correct=correct
                 )
                 answers.append(answer)
@@ -111,7 +114,7 @@ class Command(BaseCommand):
         question_likes = []
         answer_likes = []
 
-        for _ in range(ratio * 200):
+        for i in range(ratio * 200):
             profile = random.choice(profiles)
             question = random.choice(questions)
             question_like = QuestionLike(
@@ -123,7 +126,7 @@ class Command(BaseCommand):
         QuestionLike.objects.bulk_create(question_likes, ignore_conflicts=True)
 
         answers = list(Answer.objects.all())
-        for _ in range(ratio * 200):
+        for i in range(ratio * 200):
             profile = random.choice(profiles)
             answer = random.choice(answers)
             answer_like = AnswerLike(

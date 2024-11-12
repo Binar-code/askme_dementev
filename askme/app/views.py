@@ -1,6 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.template.response import TemplateResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from app.models import Question, Answer, Tag, Profile
 from django.db.models import Count
 
@@ -19,7 +18,7 @@ def paginate(obj_list, req, per_page=4):
 def index(req):
     paginated_cards = paginate(Question.objects.new().annotate(likes_count=Count('likes')), req, 4)
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
-    return TemplateResponse(req, 'index.html', context={
+    return render(req, 'index.html', context={
         'username': req.user.username if req.user.is_authenticated else None,
         'userpic': profile.avatar.url if profile and profile.avatar else None,
         'members': Profile.objects.best(),
@@ -29,20 +28,20 @@ def index(req):
 
 
 def login(req):
-    return TemplateResponse(req, 'login.html', context={
+    return render(req, 'login.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True)})
 
 
 def signup(req):
-    return TemplateResponse(req, 'signup.html', context={
+    return render(req, 'signup.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True)})
 
 
 def settings(req):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
-    return TemplateResponse(req, 'settings.html', context={
+    return render(req, 'settings.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': profile.avatar.url if profile and profile.avatar else None,
@@ -54,7 +53,7 @@ def tag(req, tag_name):
     questions_with_tag = Question.objects.tag(tag)
     paginated_cards = paginate(questions_with_tag, req, 6)
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
-    return TemplateResponse(req, 'tag.html', context={
+    return render(req, 'tag.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': profile.avatar.url if profile and profile.avatar else None,
@@ -67,7 +66,7 @@ def tag(req, tag_name):
 def hot(req):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     paginated_cards = paginate(Question.objects.popular(), req, 4)
-    return TemplateResponse(req, 'hot.html', context={
+    return render(req, 'hot.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': profile.avatar.url if profile and profile.avatar else None,
@@ -79,7 +78,7 @@ def question(req, question_id):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     question = get_object_or_404(Question.objects.annotate(likes_count=Count('likes')), id=question_id)
     paginated_answers = paginate(Answer.objects.answers(question=question).annotate(likes_count=Count('likes')), req, 4)
-    return TemplateResponse(req, 'question.html', context={
+    return render(req, 'question.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': profile.avatar.url if profile and profile.avatar else None,
@@ -92,7 +91,7 @@ def question(req, question_id):
 def ask(req):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     userpic = profile.avatar.url if profile and profile.avatar else None
-    return TemplateResponse(req, 'ask.html', context={
+    return render(req, 'ask.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': userpic,
