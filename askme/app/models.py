@@ -15,8 +15,13 @@ class QuestionManager(models.Manager):
         return self.annotate(likes_count=Count('likes')).order_by('-created_at')
 
     def tag(self, tag):
-        return self.filter(tags=tag).annotate(likes_count=Count('likes', distinct=True),
-                                              answers_count=Count('answers', distinct=True  ))
+        return self.filter(tags=tag).annotate(
+            likes_count=Count('likes', distinct=True),
+            answers_count=Count('answers', distinct=True)
+        )
+
+    def ordered(self):
+        return self.order_by('-created_at')
 
 
 class ProfileManager(models.Manager):

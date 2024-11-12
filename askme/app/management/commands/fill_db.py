@@ -28,7 +28,7 @@ class Command(BaseCommand):
         profiles = []
         fake.unique.clear()
 
-        for _ in range(ratio):
+        for i in range(ratio):
             username = fake.unique.user_name()
             email = fake.unique.email()
             user = User(username=username, email=email)
@@ -49,7 +49,7 @@ class Command(BaseCommand):
         tags = set()
 
         while len(tags) < ratio:
-            name = f"{fake.word()}_{len(tags)}"
+            name = f"{fake.word()}}"
             tags.add(name)
 
         tag_objects = [Tag(name=name) for name in tags]
@@ -84,20 +84,16 @@ class Command(BaseCommand):
     def create_answers(self, ratio, questions):
         profiles = list(Profile.objects.all())
         answers = []
+        count = 0
         text = fake.paragraph()
+        users = random.sample(profiles, ratio)
 
         for question in questions:
             has_correct_answer = False
-
             for i in range(ratio):
-                profile = random.choice(profiles)
-
-                if not has_correct_answer and random.random() < 0.1:
-                    correct = True
-                    has_correct_answer = True
-                else:
-                    correct = False
-
+                profile = users[i % len(users)]
+                correct = random.random() < 0.1 and not has_correct_answer
+                has_correct_answer = has_correct_answer or correct
                 answer = Answer(
                     question=question,
                     user=profile,
@@ -105,9 +101,16 @@ class Command(BaseCommand):
                     correct=correct
                 )
                 answers.append(answer)
+                count += 1
 
-        Answer.objects.bulk_create(answers)
-        self.stdout.write(self.style.SUCCESS(f'Создано ответов: {len(answers)}'))
+            if len(answers) >= 10000:
+                Answer.objects.bulk_create(answers)
+                answers.clear()
+
+        if answers:
+            Answer.objects.bulk_create(answers)
+
+        self.stdout.write(self.style.SUCCESS(f'Создано ответов: {count}'))
 
     def create_likes(self, ratio, questions):
         profiles = list(Profile.objects.all())

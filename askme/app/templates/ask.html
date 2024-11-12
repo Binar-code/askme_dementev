@@ -11,6 +11,7 @@
             <a href="{% url 'home' %}" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
         </form>
         <div class="d-flex gap-1">
+            {% if auth %}
             <img src="{% static userpic %}" alt="IMG" class="img-thumbnail object-fit-scale">
             <div class="me-5">
                 <div class="text-start">
@@ -20,6 +21,9 @@
                     <a href="{% url 'home' %}">log out</a>
                 </div>
             </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="me-5">Login</a>
+            {% endif %}
         </div>
     </nav>
 </header>
