@@ -12,7 +12,10 @@ class QuestionManager(models.Manager):
         ).order_by('-likes_count')
 
     def new(self):
-        return self.annotate(likes_count=Count('likes')).order_by('-created_at')
+        return self.annotate(
+            likes_count=Count('likes', distinct=True),
+            answers_count=Count('answers', distinct=True)
+         ).order_by('-created_at')
 
     def tag(self, tag):
         return self.filter(tags=tag).annotate(

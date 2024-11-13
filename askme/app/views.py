@@ -16,7 +16,7 @@ def paginate(obj_list, req, per_page=4):
 
 
 def index(req):
-    paginated_cards = paginate(Question.objects.new().annotate(likes_count=Count('likes')), req, 4)
+    paginated_cards = paginate(Question.objects.new(), req, 4)
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     return render(req, 'index.html', context={
         'username': req.user.username if req.user.is_authenticated else None,
