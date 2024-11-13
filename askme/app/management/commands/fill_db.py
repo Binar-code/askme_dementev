@@ -56,7 +56,7 @@ class Command(BaseCommand):
     def create_tags(self, ratio):
         tags = set()
 
-        while len(tags) < ratio:
+        while len(tags) < (ratio + 1):
             self.stdout.write(self.style.SUCCESS(f'\rНомер тега: {len(tags)}'))
             name = f"{fake.word()}_{random.randint(0, 100)}"
             tags.add(name)
@@ -101,7 +101,7 @@ class Command(BaseCommand):
 
         for question in questions:
             has_correct_answer = False
-            for i in range(100):
+            for i in range(10):
                 self.stdout.write(self.style.SUCCESS(f'\rНомер ответа: {count}'))
                 profile = random.choice(profiles)
                 correct = random.random() < 0.1 and not has_correct_answer
@@ -131,7 +131,7 @@ class Command(BaseCommand):
         question_likes = []
         answer_likes = []
 
-        for i in range(ratio * 100):
+        for i in range(ratio * 200):
             self.stdout.write(self.style.SUCCESS(f'\rНомер лайка вопроса: {i}'))
             profile = random.choice(profiles)
             question = random.choice(questions)
@@ -146,7 +146,7 @@ class Command(BaseCommand):
         QuestionLike.objects.bulk_create(question_likes, ignore_conflicts=True)
 
         answers = list(Answer.objects.all())
-        for i in range(ratio * 100):
+        for i in range(ratio * 200):
             self.stdout.write(self.style.SUCCESS(f'\rНомер лайка ответа: {i}'))
             profile = random.choice(profiles)
             answer = random.choice(answers)
