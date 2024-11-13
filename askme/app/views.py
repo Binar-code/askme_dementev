@@ -15,19 +15,15 @@ def paginate(obj_list, req, per_page=4):
 
 
 def index(req):
-    paginated_cards = paginate(
-        Question.objects.new(), req, 4)
-    profile = None
-    if req.user.is_authenticated:
-        profile = get_object_or_404(Profile, user_id=req.user.id)
+    paginated_cards = paginate(Question.objects.new(), req, 4)
+    profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
     return render(req, 'index.html', context={
         'username': req.user.username if req.user.is_authenticated else None,
         'userpic': profile.avatar.url if profile and profile.avatar else None,
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'cards': paginated_cards,
-        'auth': req.user.is_authenticated
-    })
+        'auth': req.user.is_authenticated})
 
 
 def login(req):
@@ -79,8 +75,7 @@ def hot(req):
 
 def question(req, question_id):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
-    question = get_object_or_404(Question, id=question_id)
-    paginated_answers = paginate(Answer.objects.answers(question=question), req, 4)
+    paginated_answers = paginate(Answer, req, 4)
     return render(req, 'question.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
