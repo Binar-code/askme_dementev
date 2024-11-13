@@ -12,12 +12,13 @@
         <nav class="navbar navbar-light shadow" style="background-color: lightblue;">
             <div class="container-fluid">
             <a href="{% url 'home' %}" class="navbar-brand ms-5"><h1 style="color: lightseagreen;">AskMe</h1></a>
-            <form class="d-flex col-6">
+            <form class="d-flex col-6 mt-3">
                 <input class="form-control me-2" type="search" placeholder="Your question" aria-label="Search">
-                <a href="{% url 'question' %}" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
+                <a href="{% url 'home' %}" style="all: unset;"><button class="btn btn-outline-success" type="submit">Search</button></a>
             </form>
             <a href="{% url 'ask' %}" style="all: unset;"><button class="btn btn-outline-success" type="submit">New question</button></a>
             <div class="d-flex gap-1">
+                {% if auth %}
                 <img src="{% static userpic %}" alt="IMG" class="img-thumbnail object-fit-scale">
                 <div class="me-5">
                     <div class="text-start">
@@ -27,6 +28,10 @@
                         <a href="{% url 'home' %}">log out</a>
                     </div>
                 </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="me-2">Login</a>
+                    <a href="{% url 'signup' %}" class="me-5">Sign Up</a>
+                {% endif %}
             </div>
         </nav>
     </header>
@@ -44,22 +49,22 @@
               <section class="mb-3">
                   <h1>Popular tags</h1>
                   <div>
-                      {% for tag, link in tags %}
-                        <a href="{% url link %}"><span class="badge bg-primary">{{ tag }}</span></a>
+                      {% for tag in tags %}
+                        <a href="{% url 'tag' tag_name=tag %}"><span class="badge bg-primary">{{ tag }}</span></a>
                       {% endfor %}
                   </div>
               </section>
-              <section>
-                  <h1 class="mb-3">Best members</h1>
-                  <ul class="list-group shadow">
-                      {% for member, rating in members.items %}
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <p style="all: unset;">{{ member }}</p>
-                        <span class="badge bg-primary rounded-pill">{{ rating }}</span>
-                      </li>
-                      {% endfor %}
-                  </ul>
-              </section>
+            <section>
+                <h1 class="mb-3">Best members</h1>
+                <ul class="list-group shadow">
+                    {% for member in members %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <p style="all: unset;">{{ member.user.username }}</p>
+                        <span class="badge bg-primary rounded-pill">{{ member.answer_likes }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
           </div>
       </section>
     </main>

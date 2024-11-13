@@ -11,11 +11,11 @@
         <div class="row">
             <div class="col-3">
                 <div class=" mt-1 ms-1 mb-1 me-1">
-                    <img src="{% static question.img %}" alt="IMG" class="img-thumbnail mb-3">
+                    <img src="{% static question.image %}" alt="IMG" class="img-thumbnail mb-3">
                 </div>
                 <div class="d-flex mt-3 ms-2 row">
                     <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-3" style="height: 25px; cursor: pointer;"></a>
-                    <p class="col ms-3 me-3" style="all: unset;">{{ question.likes }}</p>
+                    <p class="col ms-3 me-3" style="all: unset;">{{ question.likes_count }}</p>
                     <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col me-3" style="height: 25px; cursor: pointer;"></a>
                 </div>
             </div>
@@ -26,11 +26,9 @@
                 </p>
                 <div class="row">
                     <div class="col d-flex">
-                        <p class="">Tags:&nbsp&nbsp</p>
-                        {% for tag in question.tags %}
-                        <div>
-                            <a style="all: unset;">{{ tag }}</a>
-                        </div>
+                        <p class="">Tags:&nbsp;&nbsp;</p>
+                        {% for tag in question.tags.all %}
+                            <a style="all: unset;" href="{% url 'tag' tag_name=tag.name %}">{{ tag.name }}&nbsp;&nbsp;</a>
                         {% endfor %}
                     </div>
                 </div>
@@ -43,11 +41,11 @@
             <div class="row">
                 <div class="col-3">
                     <div style="height: 100px" class="mt-1 ms-1 mb-1 me-1">
-                        <img  src="{% static answer.img %}" alt="IMG" class="img-thumbnail mb-5">
+                        <img  src="{% static answer.image %}" alt="IMG" class="img-thumbnail mb-5">
                     </div>
                     <div class="ms-4 d-flex mt-4 row mb-3">
                         <a href="#" style="all: unset;"><img src="{% static 'img/like-pic.png' %}" alt="IMG" class="img-thumbnail col ms-1" style="height: 25px; cursor: pointer;"></a>
-                        <p class="col ms-3 me-3" style="all: unset;">0</p>
+                        <p class="col ms-3 me-3" style="all: unset;">{{ answer.likes_count }}</p>
                         <a href="#" style="all: unset;"><img src="{% static 'img/dislike-pic.png' %}" alt="IMG" class="img-thumbnail col me-1" style="height: 25px; cursor: pointer;"></a>
                     </div>
                 </div>

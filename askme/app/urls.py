@@ -6,8 +6,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('signup/', views.signup, name='signup'),
     path('settings/', views.settings, name='settings'),
-    path('tag/some_tag/', views.tag, name='tag'),
+    path('tag/<str:tag_name>/', views.tag, name='tag'),
     path('hot/', views.hot, name='hot'),
-    path('question/1/', views.question, name='question'),
-    path('ask/', views.ask, name='ask')
+    path('question/<int:question_id>/', views.question, name='question'),
+    path('ask/', views.ask, name='ask'),
 ]
