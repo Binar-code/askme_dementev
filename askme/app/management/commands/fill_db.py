@@ -28,6 +28,7 @@ class Command(BaseCommand):
         self.create_likes(ratio, questions, profiles)
         self.stdout.write(self.style.SUCCESS('База данных успешно заполнена!'))
 
+
     def create_users(self, ratio):
         users = []
         profiles = []
@@ -77,7 +78,6 @@ class Command(BaseCommand):
                     user=profile,
                     title=random.choice(title_pool),
                     text=random.choice(text_pool),
-                    image=None
                 )
                 questions.append(question)
 
@@ -96,7 +96,7 @@ class Command(BaseCommand):
     def create_answers(self, ratio, questions, users):
         profiles = users
         answers = []
-        text_pool = [fake.text for i in range(1000)]
+        text_pool = [fake.text() for i in range(1000)]
         count = 0
 
         for question in questions:
@@ -106,6 +106,8 @@ class Command(BaseCommand):
                 profile = random.choice(profiles)
                 correct = random.random() < 0.1 and not has_correct_answer
                 has_correct_answer = has_correct_answer or correct
+                question.answers_count += 1
+                question.save()
                 answer = Answer(
                     question=question,
                     user=profile,
@@ -133,7 +135,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'\rНомер лайка вопроса: {i}'))
             profile = random.choice(profiles)
             question = random.choice(questions)
-            question_like = QuestionLike(
+            question.likes_count += 1
+            question.save()
+            question_like =QuestionLike(
                 user=profile,
                 question=question
             )
@@ -146,6 +150,8 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'\rНомер лайка ответа: {i}'))
             profile = random.choice(profiles)
             answer = random.choice(answers)
+            answer.likes_count += 1
+            answer.save()
             answer_like = AnswerLike(
                 user=profile,
                 answer=answer

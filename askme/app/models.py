@@ -4,33 +4,22 @@ from django.db.models import Count, F
 
 MAX_TITLE_LEN = 255
 
+
 class QuestionManager(models.Manager):
     def popular(self):
-        return self.annotate(
-            likes_count=Count('likes', distinct=True),
-            answers_count=Count('answers', distinct=True)
-        ).order_by('-likes_count')
+        return self.annotate().order_by('-likes_count')
 
     def new(self):
-        return self.annotate(
-            likes_count=Count('likes', distinct=True),
-            answers_count=Count('answers', distinct=True)
-         ).order_by('-created_at')
+        return self.annotate().order_by('-created_at')
 
     def tag(self, tag):
-        return self.filter(tags=tag).annotate(
-            likes_count=Count('likes', distinct=True),
-            answers_count=Count('answers', distinct=True)
-        )
-
-    def ordered(self):
-        return self.order_by('-created_at')
+        return self.filter(tags=tag)
 
 
 class ProfileManager(models.Manager):
     def best(self):
         return self.annotate(
-            answer_likes=Count('answers__likes', distinct=True)).order_by('-answer_likes')[:5]
+            answer_likes=Count('answers__likes')).order_by('-answer_likes')[:5]
 
 
 class TagsManager(models.Manager):
@@ -63,9 +52,11 @@ class Question(models.Model):
     image = models.ImageField(
         blank=True,
         null=True,
-        default='static/img/placeholder_pic.png'
+        default='img/placeholder-pic.png'
     )
     tags = models.ManyToManyField('Tag', related_name='questions')
+    likes_count = models.IntegerField(default = 0)
+    answers_count = models.IntegerField(default = 0)
     created_at = models.DateTimeField(auto_now_add=True)
     objects = QuestionManager()
 
@@ -81,8 +72,14 @@ class Answer(models.Model):
         on_delete=models.CASCADE,
         related_name='answers'
     )
+    image = models.ImageField(
+        blank=True,
+        null=True,
+        default='img/placeholder-pic.png'
+    )
     correct = models.BooleanField(default=False)
     text = models.TextField()
+    likes_count = models.IntegerField(default = 0)
     created_at = models.DateTimeField(auto_now_add=True)
     objects = AnswerManager()
 

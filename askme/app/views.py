@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
 from app.models import Question, Answer, Tag, Profile
-from django.db.models import Count
 
 
 def paginate(obj_list, req, per_page=4):
@@ -16,15 +15,19 @@ def paginate(obj_list, req, per_page=4):
 
 
 def index(req):
-    paginated_cards = paginate(Question.objects.new(), req, 4)
-    profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
+    paginated_cards = paginate(
+        Question.objects.new(), req, 4)
+    profile = None
+    if req.user.is_authenticated:
+        profile = get_object_or_404(Profile, user_id=req.user.id)
     return render(req, 'index.html', context={
         'username': req.user.username if req.user.is_authenticated else None,
         'userpic': profile.avatar.url if profile and profile.avatar else None,
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'cards': paginated_cards,
-        'auth': req.user.is_authenticated})
+        'auth': req.user.is_authenticated
+    })
 
 
 def login(req):
@@ -76,15 +79,15 @@ def hot(req):
 
 def question(req, question_id):
     profile = get_object_or_404(Profile, user_id=req.user.id) if req.user.is_authenticated else None
-    question = get_object_or_404(Question.objects.annotate(likes_count=Count('likes')), id=question_id)
-    paginated_answers = paginate(Answer.objects.answers(question=question).annotate(likes_count=Count('likes')), req, 4)
+    question = get_object_or_404(Question, id=question_id)
+    paginated_answers = paginate(Answer.objects.answers(question=question), req, 4)
     return render(req, 'question.html', context={
         'members': Profile.objects.best(),
         'tags': Tag.objects.popular().values_list('name', flat=True),
         'userpic': profile.avatar.url if profile and profile.avatar else None,
         'username': req.user.username if req.user.is_authenticated else None,
         'cards': paginated_answers,
-        'question': get_object_or_404(Question.objects.annotate(likes_count=Count('likes')), id=question_id),
+        'question': get_object_or_404(Question, id=question_id),
         'question_id': question_id})
 
 
