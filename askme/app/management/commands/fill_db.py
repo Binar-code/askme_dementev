@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 correct = random.random() < 0.1 and not has_correct_answer
                 has_correct_answer = has_correct_answer or correct
                 question.answers_count += 1
-                question.save()
+                question.save(update_fields=['answers_count'])
                 answer = Answer(
                     question=question,
                     user=profile,
@@ -136,7 +136,7 @@ class Command(BaseCommand):
             profile = random.choice(profiles)
             question = random.choice(questions)
             question.likes_count += 1
-            question.save()
+            question.save(update_fields=['likes_count'])
             question_like =QuestionLike(
                 user=profile,
                 question=question
@@ -151,7 +151,7 @@ class Command(BaseCommand):
             profile = random.choice(profiles)
             answer = random.choice(answers)
             answer.likes_count += 1
-            answer.save()
+            answer.save(update_fields=['likes_count'])
             answer_like = AnswerLike(
                 user=profile,
                 answer=answer
